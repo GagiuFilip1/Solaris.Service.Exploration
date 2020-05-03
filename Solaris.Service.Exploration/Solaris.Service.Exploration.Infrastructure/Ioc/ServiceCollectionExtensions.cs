@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Solaris.Service.Exploration.Core.Extensions;
 
 namespace Solaris.Service.Exploration.Infrastructure.Ioc
 {

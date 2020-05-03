@@ -10,4 +10,9 @@
       <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Solaris.Service.Exploration.Core\Solaris.Service.Exploration.Core.csproj" />
+      <ProjectReference Include="..\Solaris.Service.Exploration.Infrastructure\Solaris.Service.Exploration.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

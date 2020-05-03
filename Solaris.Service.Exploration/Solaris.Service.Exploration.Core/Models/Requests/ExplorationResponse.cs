@@ -3,9 +3,9 @@ using Solaris.Service.Exploration.Core.Models.Entities;
 
 namespace Solaris.Service.Exploration.Core.Models.Requests
 {
-    public class ExplorationRequest
+    public class ExplorationResponse
     {
+        public bool IsSuccessful { get; set; }
         public Planet Planet { get; set; }
-        public List<Robot> Robots { get; set; }
     }
 }
