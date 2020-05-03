@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Solaris.Service.Exploration.Core.Extensions;
 
 namespace Solaris.Service.Exploration.Infrastructure.Ioc
 {
@@ -75,9 +76,8 @@ namespace Solaris.Service.Exploration.Infrastructure.Ioc
 
         public static void InjectRabbitMq(this IServiceCollection collection)
         {
-            // var assembly = Assembly.Load("Solaris.Web.SolarApi.Infrastructure");
-            // assembly.GetTypesForPath("Solaris.Web.SolarApi.Infrastructure.Rabbit").Select(t => t.UnderlyingSystemType).ToList().ForEach(RegisterType);
-            // collection.BuildServiceProvider().GetRequiredService<RabbiHandler>();
+             var assembly = Assembly.Load("Solaris.Service.Exploration.Infrastructure");
+             assembly.GetTypesForPath("Solaris.Service.Exploration.Infrastructure.Rabbit").Select(t => t.UnderlyingSystemType).ToList().ForEach(RegisterType);
         }
     }
 }

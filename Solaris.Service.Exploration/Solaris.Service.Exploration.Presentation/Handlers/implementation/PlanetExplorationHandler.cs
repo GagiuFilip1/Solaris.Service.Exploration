@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using NLog;
 using Solaris.Service.Exploration.Core.Enums;
 using Solaris.Service.Exploration.Core.Handlers;
+using Solaris.Service.Exploration.Core.Handlers.Interfaces;
 using Solaris.Service.Exploration.Core.Models.Entities;
 using Solaris.Service.Exploration.Core.Models.Helpers.Commons;
 using Solaris.Service.Exploration.Core.Models.Requests;
 using Solaris.Service.Exploration.Core.Services;
+using Solaris.Service.Exploration.Core.Services.Interfaces;
 using Solaris.Service.Exploration.Infrastructure.Rabbit;
 
-namespace Solaris.Service.Exploration.Presentation.Handlers
+namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
 {
     public class PlanetExplorationHandler : IPlanetExplorationHandler
     {
@@ -30,11 +31,11 @@ namespace Solaris.Service.Exploration.Presentation.Handlers
             m_explorationService = explorationService;
         }
 
-        public void HandleAsync(MessageType type)
+        public void HandleAsync()
         {
             m_rabbitHandler.ListenQueueAsync(new ListenOptions
             {
-                MessageType = type,
+                MessageType = MessageType.SendRobotsToPlanet,
                 RequestParser = ExploreAsync,
                 TargetQueue = m_appSettings.RabbitMqQueues.ExplorationQueue
             });

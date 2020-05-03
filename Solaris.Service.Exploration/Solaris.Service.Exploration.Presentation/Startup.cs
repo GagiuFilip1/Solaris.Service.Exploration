@@ -1,30 +1,37 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Solaris.Service.Exploration.Core.Handlers.Interfaces;
+using Solaris.Service.Exploration.Core.Models.Helpers.Commons;
+using Solaris.Service.Exploration.Infrastructure.Ioc;
+using Solaris.Service.Exploration.Presentation.Handlers.implementation;
 
 namespace Solaris.Service.Exploration.Presentation
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        private const string SERVICES_NAMESPACE = "Solaris.Service.Exploration.Infrastructure.Services.Implementations";
+        private const string HANDLERS_NAMESPACE = "Solaris.Service.Exploration.Presentation.Handlers.Implementations";
+
+        public Startup(IConfiguration configuration)
         {
+            Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        private IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints => { endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); }); });
+            services.Configure<KestrelServerOptions>(options => { options.AllowSynchronousIO = true; });
+            services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.InjectForNamespace(SERVICES_NAMESPACE);
+            services.InjectForNamespace(HANDLERS_NAMESPACE);
+            services.InjectRabbitMq();
+            
+            var manager = services.BuildServiceProvider().GetRequiredService<HandlersManager>();
+            manager.HandleRequests();
         }
     }
 }

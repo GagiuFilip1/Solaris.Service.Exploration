@@ -8,6 +8,7 @@ using Solaris.Service.Exploration.Core.Extensions;
 using Solaris.Service.Exploration.Core.Models.Entities;
 using Solaris.Service.Exploration.Core.Models.Requests;
 using Solaris.Service.Exploration.Core.Services;
+using Solaris.Service.Exploration.Core.Services.Interfaces;
 
 namespace Solaris.Service.Exploration.Infrastructure.Services
 {
