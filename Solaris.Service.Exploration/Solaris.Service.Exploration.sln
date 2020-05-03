@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solaris.Service.Exploration", "Solaris.Service.Exploration\Solaris.Service.Exploration.csproj", "{68FDE06C-F89E-4F50-9426-5FA8E9B9F386}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solaris.Service.Exploration.Presentation", "Solaris.Service.Exploration.Presentation\Solaris.Service.Exploration.Presentation.csproj", "{68FDE06C-F89E-4F50-9426-5FA8E9B9F386}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solaris.Service.Exploration.Core", "Solaris.Service.Exploration.Core\Solaris.Service.Exploration.Core.csproj", "{585B8379-2C54-4D5F-AFFA-E090755DCE6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solaris.Service.Exploration.Infrastructure", "Solaris.Service.Exploration.Infrastructure\Solaris.Service.Exploration.Infrastructure.csproj", "{BD0A4884-10DB-4244-B5E6-B565967D43B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +16,13 @@ Global
 		{68FDE06C-F89E-4F50-9426-5FA8E9B9F386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68FDE06C-F89E-4F50-9426-5FA8E9B9F386}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68FDE06C-F89E-4F50-9426-5FA8E9B9F386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{585B8379-2C54-4D5F-AFFA-E090755DCE6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{585B8379-2C54-4D5F-AFFA-E090755DCE6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{585B8379-2C54-4D5F-AFFA-E090755DCE6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{585B8379-2C54-4D5F-AFFA-E090755DCE6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD0A4884-10DB-4244-B5E6-B565967D43B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD0A4884-10DB-4244-B5E6-B565967D43B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD0A4884-10DB-4244-B5E6-B565967D43B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD0A4884-10DB-4244-B5E6-B565967D43B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
