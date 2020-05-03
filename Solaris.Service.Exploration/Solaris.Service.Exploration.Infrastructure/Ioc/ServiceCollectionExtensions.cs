@@ -54,22 +54,36 @@ namespace Solaris.Service.Exploration.Infrastructure.Ioc
                     if (registrationType.AsSelf)
                         Services.AddSingleton(typeToRegister);
                     else
+                    {
                         Services.AddSingleton(typeToRegister.GetInterfaces().First(), typeToRegister);
+                        if (registrationType.SpecificInterface != null)
+                            Services.AddSingleton(registrationType.SpecificInterface, typeToRegister);
+                    }
                     break;
                 case RegistrationType.Scoped:
                     if (registrationType.AsSelf)
                         Services.AddScoped(typeToRegister);
                     else
+                    {
                         Services.AddScoped(typeToRegister.GetInterfaces().First(), typeToRegister);
+                        if (registrationType.SpecificInterface != null)
+                            Services.AddScoped(registrationType.SpecificInterface, typeToRegister);
+                    }
                     break;
                 case RegistrationType.Transient:
                     if (registrationType.AsSelf)
                         Services.AddTransient(typeToRegister);
                     else
+                    {
                         Services.AddTransient(typeToRegister.GetInterfaces().First(), typeToRegister);
+                        if (registrationType.SpecificInterface != null)
+                            Services.AddTransient(registrationType.SpecificInterface, typeToRegister);
+                    }
                     break;
                 default:
                     Services.AddScoped(typeToRegister.GetInterfaces().First(), typeToRegister);
+                    if (registrationType.SpecificInterface != null)
+                        Services.AddScoped(registrationType.SpecificInterface, typeToRegister);
                     break;
             }
         }

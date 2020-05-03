@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Solaris.Service.Exploration.Core.Handlers.Interfaces;
 using Solaris.Service.Exploration.Core.Models.Helpers.Commons;
 using Solaris.Service.Exploration.Infrastructure.Ioc;
 using Solaris.Service.Exploration.Presentation.Handlers.implementation;
@@ -11,8 +10,8 @@ namespace Solaris.Service.Exploration.Presentation
 {
     public class Startup
     {
-        private const string SERVICES_NAMESPACE = "Solaris.Service.Exploration.Infrastructure.Services.Implementations";
-        private const string HANDLERS_NAMESPACE = "Solaris.Service.Exploration.Presentation.Handlers.Implementations";
+        private const string SERVICES_NAMESPACE = "Solaris.Service.Exploration.Infrastructure.Services";
+        private const string HANDLERS_NAMESPACE = "Solaris.Service.Exploration.Presentation.Handlers.implementation";
 
         public Startup(IConfiguration configuration)
         {
@@ -32,6 +31,11 @@ namespace Solaris.Service.Exploration.Presentation
             
             var manager = services.BuildServiceProvider().GetRequiredService<HandlersManager>();
             manager.HandleRequests();
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            
         }
     }
 }

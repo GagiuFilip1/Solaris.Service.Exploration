@@ -2,6 +2,7 @@
 {
     public enum MessageType
     {
+        StartExplorationProcess,
         SendRobotsToPlanet,
         ExplorationFinished,
         UpdateRobotStatus

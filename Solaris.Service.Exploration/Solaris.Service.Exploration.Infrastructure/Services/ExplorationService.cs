@@ -7,11 +7,12 @@ using Solaris.Service.Exploration.Core.Enums;
 using Solaris.Service.Exploration.Core.Extensions;
 using Solaris.Service.Exploration.Core.Models.Entities;
 using Solaris.Service.Exploration.Core.Models.Requests;
-using Solaris.Service.Exploration.Core.Services;
 using Solaris.Service.Exploration.Core.Services.Interfaces;
+using Solaris.Service.Exploration.Infrastructure.Ioc;
 
 namespace Solaris.Service.Exploration.Infrastructure.Services
 {
+    [RegistrationKind(Type = RegistrationType.Scoped, AsSelf = false)]
     public class ExplorationService : IExplorationService
     {
         private readonly Random m_random = new Random();

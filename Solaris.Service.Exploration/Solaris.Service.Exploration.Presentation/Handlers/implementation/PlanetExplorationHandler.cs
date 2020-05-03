@@ -6,17 +6,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Solaris.Service.Exploration.Core.Enums;
-using Solaris.Service.Exploration.Core.Handlers;
 using Solaris.Service.Exploration.Core.Handlers.Interfaces;
 using Solaris.Service.Exploration.Core.Models.Entities;
 using Solaris.Service.Exploration.Core.Models.Helpers.Commons;
 using Solaris.Service.Exploration.Core.Models.Requests;
-using Solaris.Service.Exploration.Core.Services;
 using Solaris.Service.Exploration.Core.Services.Interfaces;
+using Solaris.Service.Exploration.Infrastructure.Ioc;
 using Solaris.Service.Exploration.Infrastructure.Rabbit;
 
 namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
 {
+    [RegistrationKind(Type = RegistrationType.Scoped, AsSelf = false, SpecificInterface = typeof(IHandler))]
     public class PlanetExplorationHandler : IPlanetExplorationHandler
     {
         private readonly RabbitHandler m_rabbitHandler;
@@ -24,20 +24,22 @@ namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
         private readonly AppSettings m_appSettings;
         private readonly ILogger<PlanetExplorationHandler> m_logger;
 
-        public PlanetExplorationHandler(RabbitHandler rabbitHandler, IOptions<AppSettings> appSettings, IExplorationService explorationService)
+        public PlanetExplorationHandler(RabbitHandler rabbitHandler, IOptions<AppSettings> appSettings, IExplorationService explorationService, ILogger<PlanetExplorationHandler> logger)
         {
             m_appSettings = appSettings.Value;
             m_rabbitHandler = rabbitHandler;
             m_explorationService = explorationService;
+            m_logger = logger;
         }
 
         public void HandleAsync()
         {
             m_rabbitHandler.ListenQueueAsync(new ListenOptions
             {
-                MessageType = MessageType.SendRobotsToPlanet,
+                MessageType = MessageType.StartExplorationProcess,
                 RequestParser = ExploreAsync,
-                TargetQueue = m_appSettings.RabbitMqQueues.ExplorationQueue
+                TargetQueue = m_appSettings.RabbitMqQueues.ExplorationQueue,
+                Qos = 10
             });
         }
 
@@ -45,15 +47,20 @@ namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
         {
             try
             {
+                m_logger.LogInformation($"Received Job {body}");
                 var request = JsonConvert.DeserializeObject<ExplorationRequest>(body);
-                var response = new ExplorationResponse();
+                var response = new ExplorationResponse
+                {
+                    Robots = request.Robots,
+                    Planet = request.Planet
+                };
                 try
                 {
                     await m_explorationService.ExplorePlanet(response);
                 }
                 catch (ValidationException e)
                 {
-                    m_logger.LogError(e, "Validation Error Occured while trying to explore the planet");
+                    m_logger.LogWarning(e, "Validation Error Occured while trying to explore the planet");
                 }
                 catch (Exception e) when (e.GetType() != typeof(ValidationException))
                 {
@@ -88,7 +95,7 @@ namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
                 TargetQueue = m_appSettings.RabbitMqQueues.SolarApiQueue,
                 Headers = new Dictionary<string, object>
                 {
-                    {nameof(MessageType), MessageType.ExplorationFinished},
+                    {nameof(MessageType), nameof(MessageType.ExplorationFinished)},
                 },
                 Message = JsonConvert.SerializeObject(response)
             });
@@ -101,7 +108,7 @@ namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
                 TargetQueue = m_appSettings.RabbitMqQueues.CrewApiQueue,
                 Headers = new Dictionary<string, object>
                 {
-                    {nameof(MessageType), MessageType.UpdateRobotStatus},
+                    {nameof(MessageType), nameof(MessageType.UpdateRobotStatus)},
                 },
                 Message = JsonConvert.SerializeObject(robots)
             });

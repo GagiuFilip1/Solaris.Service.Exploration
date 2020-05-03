@@ -4,7 +4,7 @@ using Solaris.Service.Exploration.Infrastructure.Ioc;
 
 namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
 {
-    [RegistrationKind(AsSelf = true)]
+    [RegistrationKind(Type = RegistrationType.Scoped, AsSelf = true)]
     public class HandlersManager
     {
         private readonly IEnumerable<IHandler> m_handlers;

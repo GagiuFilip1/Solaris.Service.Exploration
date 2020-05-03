@@ -9,5 +9,6 @@ namespace Solaris.Service.Exploration.Infrastructure.Rabbit
         public string TargetQueue { get; set; }
         public Func<string, Task> RequestParser { get; set; }
         public MessageType MessageType { get; set; }
+        public ushort Qos { get; set; }
     }
 }

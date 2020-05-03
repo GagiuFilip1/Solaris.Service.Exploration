@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -36,8 +35,27 @@ namespace Solaris.Service.Exploration.Infrastructure.Rabbit
                 UserName = m_appSettings.RabbitMq.Username,
                 Password = m_appSettings.RabbitMq.Password
             };
+            InitialiseQueue(m_appSettings.RabbitMqQueues.ExplorationQueue, 10, out _);
+            InitialiseQueue(m_appSettings.RabbitMqQueues.CrewApiQueue, 10, out _);
+            InitialiseQueue(m_appSettings.RabbitMqQueues.SolarApiQueue, 10, out _);
         }
 
+
+        private void InitialiseQueue(string queue, ushort qos, out IModel channel)
+        {
+            var factory = new ConnectionFactory
+            {
+                HostName = m_appSettings.RabbitMq.Host,
+                Port = m_appSettings.RabbitMq.Port,
+                UserName = m_appSettings.RabbitMq.Username,
+                Password = m_appSettings.RabbitMq.Password
+            };
+            var connection = factory.CreateConnection();
+            channel = connection.CreateModel();
+            channel.QueueDeclare(queue, false, false, false, null);
+            channel.BasicQos(0, qos, false);
+        }
+        
         public T PublishRpc<T>(PublishOptions options)
         {
             using var rpcData = new RpcData(Factory, options.Headers);
@@ -72,10 +90,12 @@ namespace Solaris.Service.Exploration.Infrastructure.Rabbit
                 queueData.BasicProperties,
                 Encoding.UTF8.GetBytes(options.Message));
         }
-
+        
         public void ListenQueueAsync(ListenOptions options)
         {
-            using var queueData = new QueueData(Factory, null);
+            var queueData = new QueueData(Factory, null);
+            queueData.Channel.BasicQos(0, options.Qos, false);
+            queueData.Channel.BasicConsume(options.TargetQueue, false, queueData.Consumer);
             queueData.Consumer.Received += async (model, eventArgs) =>
             {
                 var headers = eventArgs.BasicProperties.Headers.ToDictionary(
@@ -88,6 +108,8 @@ namespace Solaris.Service.Exploration.Infrastructure.Rabbit
                         return;
                     var body = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
                     await options.RequestParser.Invoke(body);
+                    queueData.Channel.BasicAck(eventArgs.DeliveryTag, false);
+                    queueData.Dispose();
                 }
                 catch (Exception e)
                 {
