@@ -7,5 +7,6 @@ namespace Solaris.Service.Exploration.Core.Models.Requests
     {
         public bool IsSuccessful { get; set; }
         public Planet Planet { get; set; }
+        public List<Robot> Robots { get; set; }
     }
 }
