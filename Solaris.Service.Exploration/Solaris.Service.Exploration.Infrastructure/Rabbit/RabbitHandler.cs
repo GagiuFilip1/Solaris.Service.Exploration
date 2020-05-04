@@ -10,13 +10,16 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Solaris.Service.Exploration.Core.Enums;
 using Solaris.Service.Exploration.Core.Models.Helpers.Commons;
-using Solaris.Service.Exploration.Core.Models.Helpers.Rabbit;
+using Solaris.Service.Exploration.Core.Rabbit.Helpers.Responses;
+using Solaris.Service.Exploration.Core.Rabbit.Helpers.Setup;
+using Solaris.Service.Exploration.Core.Rabbit.Interfaces;
+using Solaris.Service.Exploration.Core.Rabbit.Models;
 using Solaris.Service.Exploration.Infrastructure.Ioc;
 
 namespace Solaris.Service.Exploration.Infrastructure.Rabbit
 {
-    [RegistrationKind(Type = RegistrationType.Singleton, AsSelf = true)]
-    public class RabbitHandler
+    [RegistrationKind(Type = RegistrationType.Scoped)]
+    public class RabbitHandler : IRabbitHandler
     {
   private readonly AppSettings m_appSettings;
         private readonly ILogger<RabbitHandler> m_logger;

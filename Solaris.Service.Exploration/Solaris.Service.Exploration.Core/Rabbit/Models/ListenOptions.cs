@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Solaris.Service.Exploration.Core.Enums;
 
-namespace Solaris.Service.Exploration.Infrastructure.Rabbit
+namespace Solaris.Service.Exploration.Core.Rabbit.Models
 {
     public class ListenOptions
     {

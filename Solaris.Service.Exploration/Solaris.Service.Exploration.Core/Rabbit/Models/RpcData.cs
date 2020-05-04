@@ -5,7 +5,7 @@ using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Solaris.Service.Exploration.Infrastructure.Rabbit
+namespace Solaris.Service.Exploration.Core.Rabbit.Models
 {
     public class RpcData : IDisposable
     {

@@ -1,6 +1,6 @@
 ﻿﻿using System.Collections.Generic;
 
- namespace Solaris.Service.Exploration.Infrastructure.Rabbit
+ namespace Solaris.Service.Exploration.Core.Rabbit.Models
 {
     public class PublishOptions
     {

@@ -1,4 +1,4 @@
-﻿using Solaris.Service.Exploration.Core.Models.Helpers.Rabbit;
+﻿using Solaris.Service.Exploration.Core.Rabbit.Helpers.Setup;
 
 namespace Solaris.Service.Exploration.Core.Models.Helpers.Commons
 {

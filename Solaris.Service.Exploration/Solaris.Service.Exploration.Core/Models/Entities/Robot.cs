@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 using Solaris.Service.Exploration.Core.Enums;
 
 namespace Solaris.Service.Exploration.Core.Models.Entities

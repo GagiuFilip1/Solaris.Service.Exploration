@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Solaris.Service.Exploration.Core.Enums;
 using Solaris.Service.Exploration.Core.Extensions;
 using Solaris.Service.Exploration.Core.Models.Entities;
-using Solaris.Service.Exploration.Core.Models.Requests;
+using Solaris.Service.Exploration.Core.Models.Helpers.Requests;
 using Solaris.Service.Exploration.Core.Services.Interfaces;
 using Solaris.Service.Exploration.Infrastructure.Ioc;
 

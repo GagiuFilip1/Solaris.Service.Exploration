@@ -1,4 +1,4 @@
-﻿namespace Solaris.Service.Exploration.Core.Models.Helpers.Rabbit
+﻿namespace Solaris.Service.Exploration.Core.Rabbit.Helpers.Setup
 {
     public class RabbitMqSettings
     {

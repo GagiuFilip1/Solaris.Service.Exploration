@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Solaris.Service.Exploration.Core.Models.Requests;
+using Solaris.Service.Exploration.Core.Models.Helpers.Requests;
 
 namespace Solaris.Service.Exploration.Core.Services.Interfaces
 {

@@ -9,22 +9,23 @@ using Solaris.Service.Exploration.Core.Enums;
 using Solaris.Service.Exploration.Core.Handlers.Interfaces;
 using Solaris.Service.Exploration.Core.Models.Entities;
 using Solaris.Service.Exploration.Core.Models.Helpers.Commons;
-using Solaris.Service.Exploration.Core.Models.Requests;
+using Solaris.Service.Exploration.Core.Models.Helpers.Requests;
+using Solaris.Service.Exploration.Core.Rabbit.Interfaces;
+using Solaris.Service.Exploration.Core.Rabbit.Models;
 using Solaris.Service.Exploration.Core.Services.Interfaces;
 using Solaris.Service.Exploration.Infrastructure.Ioc;
-using Solaris.Service.Exploration.Infrastructure.Rabbit;
 
 namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
 {
     [RegistrationKind(Type = RegistrationType.Scoped, AsSelf = false, SpecificInterface = typeof(IHandler))]
     public class PlanetExplorationHandler : IPlanetExplorationHandler
     {
-        private readonly RabbitHandler m_rabbitHandler;
+        private readonly IRabbitHandler m_rabbitHandler;
         private readonly IExplorationService m_explorationService;
         private readonly AppSettings m_appSettings;
         private readonly ILogger<PlanetExplorationHandler> m_logger;
 
-        public PlanetExplorationHandler(RabbitHandler rabbitHandler, IOptions<AppSettings> appSettings, IExplorationService explorationService, ILogger<PlanetExplorationHandler> logger)
+        public PlanetExplorationHandler(IRabbitHandler rabbitHandler, IOptions<AppSettings> appSettings, IExplorationService explorationService, ILogger<PlanetExplorationHandler> logger)
         {
             m_appSettings = appSettings.Value;
             m_rabbitHandler = rabbitHandler;
