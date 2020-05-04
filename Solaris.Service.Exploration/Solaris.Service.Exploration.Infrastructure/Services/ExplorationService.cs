@@ -155,7 +155,7 @@ namespace Solaris.Service.Exploration.Infrastructure.Services
 
         private static int GetOperationDuration(IEnumerable<Robot> robots)
         {
-            var workingRobots = robots.Count(t => !t.Status.Equals(RobotStatus.Broken));
+            var workingRobots = robots.Count(t => !t.CurrentStatus.Equals(RobotStatus.Broken));
             if(workingRobots == 0)
                 throw new ValidationException("There are no more working robots on the planet");
             var value = (int) Math.Ceiling(1000 - workingRobots * ROBOT_SPEED_FACTOR);

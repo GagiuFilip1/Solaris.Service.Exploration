@@ -83,8 +83,8 @@ namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
         {
             robots.ForEach(t =>
             {
-                if (t.Status != RobotStatus.Broken)
-                    t.Status = RobotStatus.Free;
+                if (t.CurrentStatus != RobotStatus.Broken)
+                    t.CurrentStatus = RobotStatus.Free;
             });
         }
 
@@ -110,7 +110,7 @@ namespace Solaris.Service.Exploration.Presentation.Handlers.implementation
                 {
                     {nameof(MessageType), nameof(MessageType.UpdateRobotStatus)},
                 },
-                Message = JsonConvert.SerializeObject(robots)
+                Message = JsonConvert.SerializeObject(new {robots})
             });
         }
     }
